@@ -1,0 +1,23 @@
+<svg width="400" height="400" viewBox="0 0 400 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Simple ship</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(218 211)">
+<g id="Simple ship">
+<use xlink:href="#path0_fill" transform="translate(-218 -211)" fill="url(#paint0_linear)"/>
+<mask id="mask0_outline_ins">
+<use xlink:href="#path0_fill" fill="white" transform="translate(-218 -211)"/>
+</mask>
+<g mask="url(#mask0_outline_ins)">
+<use xlink:href="#path1_stroke_2x" transform="translate(-218 -211)" fill="#8F8F8F"/>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(249 -379 379 249 -88.5 275.5)">
+<stop offset="0" stop-color="#C4C4C4"/>
+<stop offset="1" stop-color="#C4C4C4" stop-opacity="0"/>
+</linearGradient>
+<path id="path0_fill" d="M 400 200C 400 310.457 310.457 400 200 400C 89.5431 400 0 310.457 0 200C 0 89.5431 89.5431 0 200 0C 310.457 0 400 89.5431 400 200Z"/>
+<path id="path1_stroke_2x" d="M 397 200C 397 308.8 308.8 397 200 397L 200 403C 312.114 403 403 312.114 403 200L 397 200ZM 200 397C 91.1999 397 3 308.8 3 200L -3 200C -3 312.114 87.8862 403 200 403L 200 397ZM 3 200C 3 91.1999 91.1999 3 200 3L 200 -3C 87.8862 -3 -3 87.8862 -3 200L 3 200ZM 200 3C 308.8 3 397 91.1999 397 200L 403 200C 403 87.8862 312.114 -3 200 -3L 200 3Z"/>
+</defs>
+</svg>

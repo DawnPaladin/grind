@@ -1,0 +1,19 @@
+<svg width="93" height="81" viewBox="0 0 93 81" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Simple enemy</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-410 196)">
+<g id="Simple enemy">
+<use xlink:href="#path0_fill" transform="translate(400 -200)" fill="#ECC23E"/>
+<mask id="mask0_outline_ins">
+<use xlink:href="#path0_fill" fill="white" transform="translate(400 -200)"/>
+</mask>
+<g mask="url(#mask0_outline_ins)">
+<use xlink:href="#path1_stroke_2x" transform="translate(400 -200)" fill="#C8A03A"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 53.0359 6C 54.5755 3.33333 58.4245 3.33333 59.9641 6L 101.966 78.75C 103.506 81.4167 101.581 84.75 98.5022 84.75L 14.4978 84.75C 11.4186 84.75 9.49407 81.4167 11.0337 78.75L 53.0359 6Z"/>
+<path id="path1_stroke_2x" d="M 59.9641 6L 58.2321 7L 59.9641 6ZM 101.966 78.75L 100.234 79.75L 101.966 78.75ZM 11.0337 78.75L 9.30162 77.75L 11.0337 78.75ZM 58.2321 7L 100.234 79.75L 103.698 77.75L 61.6962 5L 58.2321 7ZM 98.5022 82.75L 14.4978 82.75L 14.4978 86.75L 98.5022 86.75L 98.5022 82.75ZM 12.7657 79.75L 54.7679 7L 51.3038 5L 9.30162 77.75L 12.7657 79.75ZM 61.6962 5C 59.3868 1 53.6132 1 51.3038 5L 54.7679 7C 55.5377 5.66667 57.4623 5.66667 58.2321 7L 61.6962 5ZM 100.234 79.75C 101.004 81.0833 100.042 82.75 98.5022 82.75L 98.5022 86.75C 103.121 86.75 106.008 81.75 103.698 77.75L 100.234 79.75ZM 14.4978 82.75C 12.9582 82.75 11.9959 81.0833 12.7657 79.75L 9.30162 77.75C 6.99221 81.75 9.87897 86.75 14.4978 86.75L 14.4978 82.75Z"/>
+</defs>
+</svg>

@@ -1,0 +1,19 @@
+<svg width="100" height="100" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>square-enemy</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-238 -50)">
+<g id="square-enemy">
+<use xlink:href="#path0_fill" transform="translate(238 50)" fill="#ECC23E"/>
+<mask id="mask0_outline_ins">
+<use xlink:href="#path0_fill" fill="white" transform="translate(238 50)"/>
+</mask>
+<g mask="url(#mask0_outline_ins)">
+<use xlink:href="#path1_stroke_2x" transform="translate(238 50)" fill="#C8A03A"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 0 4C 0 1.79086 1.79086 0 4 0L 96 0C 98.2091 0 100 1.79086 100 4L 100 96C 100 98.2091 98.2091 100 96 100L 4 100C 1.79086 100 0 98.2091 0 96L 0 4Z"/>
+<path id="path1_stroke_2x" d="M 4 2L 96 2L 96 -2L 4 -2L 4 2ZM 98 4L 98 96L 102 96L 102 4L 98 4ZM 96 98L 4 98L 4 102L 96 102L 96 98ZM 2 96L 2 4L -2 4L -2 96L 2 96ZM 4 -2C 0.686292 -2 -2 0.686292 -2 4L 2 4C 2 2.89543 2.89543 2 4 2L 4 -2ZM 96 2C 97.1046 2 98 2.89543 98 4L 102 4C 102 0.686292 99.3137 -2 96 -2L 96 2ZM 98 96C 98 97.1046 97.1046 98 96 98L 96 102C 99.3137 102 102 99.3137 102 96L 98 96ZM 4 98C 2.89543 98 2 97.1046 2 96L -2 96C -2 99.3137 0.686292 102 4 102L 4 98Z"/>
+</defs>
+</svg>
