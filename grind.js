@@ -1,4 +1,4 @@
-var game = new Phaser.Game(1500, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game("100%", "100%", Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 var debug = false;
 
 function preload() {
@@ -25,4 +25,8 @@ function update() {
 }
 
 function render() {
+}
+
+function spawnFormation() {
+
 }
