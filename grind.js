@@ -1,5 +1,5 @@
 var game = new Phaser.Game("100%", "100%", Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
-var debug = false;
+var debug = true;
 
 var ship, enemy, enemies, shipCollisionGroup, enemyCollisionGroup;
 
@@ -20,11 +20,17 @@ function create() {
 	enemies.enableBody = true;
 	enemies.physicsBodyType = Phaser.Physics.P2JS;
 	enemy = game.add.sprite(500, 200, 'enemy');
-	ship = game.add.sprite(201, 300, 'ship');
+	ship = game.add.sprite(200, 200, 'ship');
 	shipGroup = game.add.group();
 	shipGroup.enableBody = true;
 	shipGroup.addChild(ship);
-	// shipGroup.create(0, 0, 'ship');
+	shipGroup.x = 200;
+	shipGroup.y = 200;
+	shipGroup.pivot.x = 200;
+	shipGroup.pivot.y = 200;
+
+	// ship = shipGroup.create(0, 0, 'ship');
+	// console.log(ship);
 
 	game.physics.p2.enable([ship, enemy], debug);
 	ship.body.setCircle(200);
