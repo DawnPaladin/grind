@@ -1,5 +1,5 @@
 var game = new Phaser.Game("100%", "100%", Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
-var debug = true;
+var debug = false;
 
 var ship, enemy, enemies, shipCollisionGroup, enemyCollisionGroup;
 
@@ -19,7 +19,6 @@ function create() {
 	enemies = game.add.group();
 	enemies.enableBody = true;
 	enemies.physicsBodyType = Phaser.Physics.P2JS;
-	enemy = game.add.sprite(500, 200, 'enemy');
 	ship = game.add.sprite(200, 200, 'ship');
 	shipGroup = game.add.group();
 	shipGroup.enableBody = true;
@@ -28,25 +27,20 @@ function create() {
 	shipGroup.y = 200;
 	shipGroup.pivot.x = 200;
 	shipGroup.pivot.y = 200;
+	spawn();
 
 	// ship = shipGroup.create(0, 0, 'ship');
 	// console.log(ship);
 
-	game.physics.p2.enable([ship, enemy], debug);
+	game.physics.p2.enable([ship, enemies], debug);
 	ship.body.setCircle(200);
 	ship.body.setCollisionGroup(shipCollisionGroup);
-	enemy.body.setCollisionGroup(enemyCollisionGroup);
-	enemy.body.collides([shipCollisionGroup, enemyCollisionGroup]);
-	enemy.body.sprite = enemy;
-
-	enemy.body.velocity.x = -100;
-	console.log(shipGroup);
-	// shipGroup.body.velocity.y = 50;
 	ship.body.collides([shipCollisionGroup, enemyCollisionGroup], collision);
 
 	cursors = game.input.keyboard.addKeys({
 		'left': Phaser.KeyCode.A,
-		'right': Phaser.KeyCode.D
+		'right': Phaser.KeyCode.D,
+		'space': Phaser.KeyCode.SPACEBAR
 	});
 }
 
@@ -58,6 +52,8 @@ function update() {
 		shipGroup.rotation -= .1;
 	} else if (cursors.right.isDown) {
 		shipGroup.rotation += .1;
+	} else if (cursors.space.isDown) {
+		spawn();
 	}
 }
 
@@ -74,6 +70,15 @@ function collision(shipBody, impactorBody) {
 	enemy.body.setZeroVelocity();
 	enemy.body.setZeroRotation();
 	// ship.body.toLocalFrame(enemy.body, positionInWorld);
+}
+
+function spawn() {
+	// var enemy = game.add.sprite(600, 200, 'enemy');
+	var enemy = enemies.create(500, 200, 'enemy');
+	enemy.body.velocity.x = -100;
+	enemy.body.setCollisionGroup(enemyCollisionGroup);
+	enemy.body.collides([shipCollisionGroup, enemyCollisionGroup]);
+	enemy.body.sprite = enemy;
 }
 
 function spawnFormation() {
