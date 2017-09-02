@@ -1,7 +1,7 @@
 var game = new Phaser.Game("100%", "100%", Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 var debug = false;
 
-var ship, enemy, enemies, shipCollisionGroup, enemyCollisionGroup;
+var ship, enemy, enemies, shipCollisionGroup, enemyCollisionGroup, spawnEnemy;
 
 function preload() {
 	game.load.image('ship', 'graphics/simple-ship.svg');
@@ -29,9 +29,6 @@ function create() {
 	shipGroup.pivot.y = 200;
 	spawn();
 
-	// ship = shipGroup.create(0, 0, 'ship');
-	// console.log(ship);
-
 	game.physics.p2.enable([ship, enemies], debug);
 	ship.body.setCircle(200);
 	ship.body.setCollisionGroup(shipCollisionGroup);
@@ -53,34 +50,33 @@ function update() {
 	} else if (cursors.right.isDown) {
 		shipGroup.rotation += .1;
 	} else if (cursors.space.isDown) {
+		spawnEnemy = true;
+	} else if (cursors.space.isUp && spawnEnemy) {
 		spawn();
+		spawnEnemy = false;
 	}
 }
 
 function render() {
+	game.debug.text('A and D to rotate; spacebar to spawn enemies', 32, 32);
 }
 
 function collision(shipBody, impactorBody) {
 	var enemy = impactorBody.sprite;
-	// console.log(enemy);
-	// var positionInWorld = [enemy.world.x, enemy.world.y]
-	// console.log(positionInWorld);
+	// enemies.remove(enemy);
 	shipGroup.addChild(enemy);
 	enemy.body.removeCollisionGroup(enemyCollisionGroup);
+	enemy.body.setCollisionGroup(shipCollisionGroup);
 	enemy.body.setZeroVelocity();
 	enemy.body.setZeroRotation();
-	// ship.body.toLocalFrame(enemy.body, positionInWorld);
 }
 
 function spawn() {
-	// var enemy = game.add.sprite(600, 200, 'enemy');
-	var enemy = enemies.create(500, 200, 'enemy');
+	var enemy = enemies.create(700, 200, 'enemy');
 	enemy.body.velocity.x = -100;
 	enemy.body.setCollisionGroup(enemyCollisionGroup);
 	enemy.body.collides([shipCollisionGroup, enemyCollisionGroup]);
 	enemy.body.sprite = enemy;
-}
-
-function spawnFormation() {
-
+	enemy.anchor.x = 0.5;
+	enemy.anchor.y = 0.5;
 }
