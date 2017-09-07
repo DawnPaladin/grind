@@ -37,6 +37,8 @@ function create() {
 	cursors = game.input.keyboard.addKeys({
 		'left': Phaser.KeyCode.A,
 		'right': Phaser.KeyCode.D,
+		'up':   Phaser.KeyCode.W,
+		'down': Phaser.KeyCode.S,
 		'space': Phaser.KeyCode.SPACEBAR
 	});
 }
@@ -44,6 +46,12 @@ function create() {
 function update() {
 	ship.body.setZeroVelocity();
 	ship.body.setZeroRotation();
+
+	if (cursors.up.isDown) {
+		ship.body.y += 10;
+	} else if (cursors.down.isDown) {
+		ship.body.y -= 10;
+	}
 
 	if (cursors.left.isDown) {
 		shipGroup.rotation -= .1;
