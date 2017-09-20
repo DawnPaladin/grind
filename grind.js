@@ -33,6 +33,7 @@ function create() {
 	ship.body.setCircle(200);
 	ship.body.setCollisionGroup(shipCollisionGroup);
 	ship.body.collides([shipCollisionGroup, enemyCollisionGroup], collision);
+	ship.body.fixedRotation = true;
 
 	cursors = game.input.keyboard.addKeys({
 		'left': Phaser.KeyCode.A,
@@ -54,9 +55,9 @@ function update() {
 	}
 
 	if (cursors.left.isDown) {
-		shipGroup.rotation -= .1;
+		ship.body.x -= 10;
 	} else if (cursors.right.isDown) {
-		shipGroup.rotation += .1;
+		ship.body.x += 10;
 	} else if (cursors.space.isDown) {
 		spawnEnemy = true;
 	} else if (cursors.space.isUp && spawnEnemy) {
@@ -66,25 +67,23 @@ function update() {
 }
 
 function render() {
-	game.debug.text('A and D to rotate; spacebar to spawn enemies', 32, 32);
+	// game.debug.text('A and D to rotate; spacebar to spawn enemies', 32, 32);
 }
 
 function collision(shipBody, impactorBody) {
-	var enemy = impactorBody.sprite;
-	// enemies.remove(enemy);
-	shipGroup.addChild(enemy);
-	enemy.body.removeCollisionGroup(enemyCollisionGroup);
-	enemy.body.setCollisionGroup(shipCollisionGroup);
-	enemy.body.setZeroVelocity();
-	enemy.body.setZeroRotation();
+	// var enemy = impactorBody.sprite;
+	impactorBody.removeCollisionGroup(enemyCollisionGroup);
+	var offset = [shipBody.x - impactorBody.x, shipBody.y - impactorBody.y];
+	var angle = game.math.angleBetween(shipBody.x, shipBody.y, impactorBody.x, impactorBody.y);
+	game.physics.p2.createLockConstraint(shipBody, impactorBody, offset, angle, 1000);
 }
 
-function spawn() {
+function spawn(x, y) {
 	var enemy = enemies.create(700, 200, 'enemy');
 	enemy.body.velocity.x = -100;
 	enemy.body.setCollisionGroup(enemyCollisionGroup);
 	enemy.body.collides([shipCollisionGroup, enemyCollisionGroup]);
-	enemy.body.sprite = enemy;
+	// enemy.body.sprite = enemy;
 	enemy.anchor.x = 0.5;
 	enemy.anchor.y = 0.5;
 }
