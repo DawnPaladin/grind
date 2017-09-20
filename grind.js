@@ -49,9 +49,9 @@ function update() {
 	ship.body.setZeroRotation();
 
 	if (cursors.up.isDown) {
-		ship.body.y += 10;
-	} else if (cursors.down.isDown) {
 		ship.body.y -= 10;
+	} else if (cursors.down.isDown) {
+		ship.body.y += 10;
 	}
 
 	if (cursors.left.isDown) {
@@ -71,19 +71,22 @@ function render() {
 }
 
 function collision(shipBody, impactorBody) {
-	// var enemy = impactorBody.sprite;
+	var enemy = impactorBody.sprite;
 	impactorBody.removeCollisionGroup(enemyCollisionGroup);
 	var offset = [shipBody.x - impactorBody.x, shipBody.y - impactorBody.y];
 	var angle = game.math.angleBetween(shipBody.x, shipBody.y, impactorBody.x, impactorBody.y);
+	// game.physics.p2.createSpring(shipBody, impactorBody, 40, 30, 50);
 	game.physics.p2.createLockConstraint(shipBody, impactorBody, offset, angle, 1000);
+	game.add.tween(enemy.scale).to( {x: 0, y: 0}, 3000, null, true);
 }
 
 function spawn(x, y) {
-	var enemy = enemies.create(700, 200, 'enemy');
+	enemy = enemies.create(700, 200, 'enemy');
 	enemy.body.velocity.x = -100;
 	enemy.body.setCollisionGroup(enemyCollisionGroup);
 	enemy.body.collides([shipCollisionGroup, enemyCollisionGroup]);
-	// enemy.body.sprite = enemy;
+	enemy.body.sprite = enemy;
+	enemy.body.debug = debug;
 	enemy.anchor.x = 0.5;
 	enemy.anchor.y = 0.5;
 }
