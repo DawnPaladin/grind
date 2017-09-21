@@ -44,6 +44,10 @@ function create() {
 	});
 
 	healthBar = new HealthBar(game, { x: game.width/2, y: 50, width: 500 });
+	shipModel.hullHealthEvent.add(function(shipStatus) {
+		var percentage = shipStatus.hullHealth / shipStatus.hullMaxHealth * 100;
+		healthBar.setPercent(percentage);
+	});
 }
 
 function update() {
