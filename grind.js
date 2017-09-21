@@ -1,7 +1,7 @@
 var game = new Phaser.Game("100%", "100%", Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 var debug = true;
 
-var ship, enemy, enemies, shipCollisionGroup, enemyCollisionGroup, spawnEnemy;
+var ship, enemy, enemies, shipCollisionGroup, enemyCollisionGroup, spawnEnemy, healthBar;
 
 function preload() {
 	game.load.image('ship', 'graphics/simple-ship.svg');
@@ -42,6 +42,8 @@ function create() {
 		'down': Phaser.KeyCode.S,
 		'space': Phaser.KeyCode.SPACEBAR
 	});
+
+	healthBar = new HealthBar(game, { x: game.width/2, y: 50, width: 500 });
 }
 
 function update() {
