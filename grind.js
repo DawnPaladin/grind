@@ -1,5 +1,5 @@
 var game = new Phaser.Game("100%", "100%", Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
-var debug = false;
+var debug = true;
 
 var ship, enemy, enemies, shipCollisionGroup, enemyCollisionGroup, spawnEnemy;
 
@@ -76,8 +76,12 @@ function collision(shipBody, impactorBody) {
 	var offset = [shipBody.x - impactorBody.x, shipBody.y - impactorBody.y];
 	var angle = game.math.angleBetween(shipBody.x, shipBody.y, impactorBody.x, impactorBody.y);
 	// game.physics.p2.createSpring(shipBody, impactorBody, 40, 30, 50);
-	game.physics.p2.createLockConstraint(shipBody, impactorBody, offset, angle, 1000);
-	game.add.tween(enemy.scale).to( {x: 0, y: 0}, 3000, null, true);
+	enemy.constraint = game.physics.p2.createLockConstraint(shipBody, impactorBody, offset, angle, 1000);
+	game.add.tween(enemy.scale).to( {x: 0, y: 0}, 500, null, true)
+		.onComplete.add(function() {
+			game.physics.p2.removeConstraint(enemy.constraint);
+			enemy.kill();
+		}, this);
 }
 
 function spawn(x, y) {
