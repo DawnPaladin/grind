@@ -83,11 +83,21 @@ function collision(shipBody, impactorBody) {
 	var angle = game.math.angleBetween(shipBody.x, shipBody.y, impactorBody.x, impactorBody.y);
 	// game.physics.p2.createSpring(shipBody, impactorBody, 40, 30, 50);
 	enemy.constraint = game.physics.p2.createLockConstraint(shipBody, impactorBody, offset, angle, 1000);
-	game.add.tween(enemy.scale).to( {x: 0, y: 0}, 500, null, true)
+	enemy.damage = { max: 10, current: 10, inflicted: 0 };
+	var tweenTime = 500;
+	var sizeTween = game.add.tween(enemy.scale);
+	sizeTween.to( {x: 0, y: 0}, tweenTime, null, true)
 		.onComplete.add(function() {
 			game.physics.p2.removeConstraint(enemy.constraint);
 			enemy.kill();
 		}, this);
+	var damageTween = game.add.tween(enemy.damage);
+	damageTween.to( {current: 0 }, tweenTime, null, true);
+	damageTween.onUpdateCallback(function(param) {
+		var diff = enemy.damage.max - (enemy.damage.current + enemy.damage.inflicted);
+		shipModel.damage(diff);
+		enemy.damage.inflicted += diff;
+	});
 }
 
 function spawn(x, y) {
