@@ -15,10 +15,6 @@ function create() {
 	game.stage.backgroundColor = '#1C1C1C';
 
 	shipCollisionGroup = game.physics.p2.createCollisionGroup();
-	enemyCollisionGroup = game.physics.p2.createCollisionGroup();
-	enemies = game.add.group();
-	enemies.enableBody = true;
-	enemies.physicsBodyType = Phaser.Physics.P2JS;
 	ship = game.add.sprite(200, 200, 'ship');
 	shipGroup = game.add.group();
 	shipGroup.enableBody = true;
@@ -27,7 +23,10 @@ function create() {
 	shipGroup.y = 200;
 	shipGroup.pivot.x = 200;
 	shipGroup.pivot.y = 200;
-	spawn();
+
+	enemyCollisionGroup = game.physics.p2.createCollisionGroup();
+	enemies = simpleEnemy.init(game, shipCollisionGroup, enemyCollisionGroup, debug);
+	simpleEnemy.spawn();
 
 	game.physics.p2.enable([ship, enemies], debug);
 	ship.body.setCircle(200);
@@ -67,52 +66,11 @@ function update() {
 	} else if (cursors.space.isDown) {
 		spawnEnemy = true;
 	} else if (cursors.space.isUp && spawnEnemy) {
-		spawn();
+		simpleEnemy.spawn();
 		spawnEnemy = false;
 	}
 }
 
 function render() {
 	// game.debug.text('A and D to rotate; spacebar to spawn enemies', 32, 32);
-}
-
-function collision(enemyBody, shipBody) {
-	var enemy = enemyBody.sprite;
-	enemyBody.removeCollisionGroup(enemyCollisionGroup);
-	var offset = [shipBody.x - enemyBody.x, shipBody.y - enemyBody.y];
-	var angle = game.math.angleBetween(shipBody.x, shipBody.y, enemyBody.x, enemyBody.y);
-	// game.physics.p2.createSpring(shipBody, enemyBody, 40, 30, 50);
-	enemy.constraints.push(game.physics.p2.createLockConstraint(shipBody, enemyBody, offset, angle, 1000));
-	if (enemy.melt) {
-		enemy.damage = { max: 10, current: 10, inflicted: 0 };
-		var tweenTime = 500;
-		var sizeTween = game.add.tween(enemy.scale);
-		sizeTween.to( {x: 0, y: 0}, tweenTime, null, true)
-			.onComplete.add(function() {
-				while (enemy.constraints.length) {
-					game.physics.p2.removeConstraint(enemy.constraints.shift());
-				}
-				enemy.kill();
-			}, this);
-		var damageTween = game.add.tween(enemy.damage);
-		damageTween.to( {current: 0 }, tweenTime, null, true);
-		damageTween.onUpdateCallback(function(param) {
-			var diff = enemy.damage.max - (enemy.damage.current + enemy.damage.inflicted);
-			shipModel.damage(diff);
-			enemy.damage.inflicted += diff;
-		});
-	}
-}
-
-function spawn(x, y) {
-	enemy = enemies.create(700, 200, 'enemy');
-	enemy.body.velocity.x = -100;
-	enemy.body.setCollisionGroup(enemyCollisionGroup);
-	enemy.body.collides([shipCollisionGroup, enemyCollisionGroup], collision);
-	enemy.body.sprite = enemy;
-	enemy.body.debug = debug;
-	enemy.anchor.x = 0.5;
-	enemy.anchor.y = 0.5;
-	enemy.constraints = [];
-	enemy.melt = false;
 }
