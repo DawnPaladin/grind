@@ -1,7 +1,9 @@
+"use strict";
+
 var game = new Phaser.Game("100%", "100%", Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
 var debug = false;
 
-var ship, enemy, enemies, shipCollisionGroup, enemyCollisionGroup, spawnEnemy, healthBar;
+var ship, enemy, shipGroup, enemies, shipCollisionGroup, enemyCollisionGroup, spawnEnemy, healthBar, shieldBar, cursors;
 
 function preload() {
 	game.load.image('ship', 'graphics/simple-ship.svg');
@@ -43,9 +45,14 @@ function create() {
 	});
 
 	healthBar = new HealthBar(game, { x: game.width/2, y: 50, width: 500 });
+	shieldBar = new HealthBar(game, { x: game.width/2, y: 100, width: 500, bar: { color: "rgb(44, 204, 190)" }, bg: { color: 'dimgray' }});
 	shipModel.hullHealthEvent.add(function(shipStatus) {
 		var percentage = shipStatus.hullHealth / shipStatus.hullMaxHealth * 100;
 		healthBar.setPercent(percentage);
+	});
+	shipModel.shieldHealthEvent.add(function(shipStatus) {
+		var percentage = shipStatus.shieldHealth / shipStatus.shieldMaxHealth * 100;
+		shieldBar.setPercent(percentage);
 	});
 }
 
