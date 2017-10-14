@@ -66,6 +66,13 @@ var simpleEnemy = (function() {
 			var healthPercentage = enemy.health / enemy.maxHealth;
 			enemy.scale.x = enemy.scale.y = healthPercentage;
 		};
+		enemy.inputEnabled = true;
+		enemy.events.onInputDown.add(function harvest() {
+			var maxDamage = 100;
+			var damage = maxDamage > enemy.health ? enemy.health : maxDamage;
+			shipModel.healShields(damage);
+			enemy.damage(damage);
+		}, this);
 		return enemy;
 	};
 

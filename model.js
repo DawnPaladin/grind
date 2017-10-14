@@ -32,6 +32,11 @@ var shipModel = (function() {
 			shieldHealthEvent.dispatch(getShipStatus());
 		}
 	}
+	function healShields(amount) {
+		shieldHealth += amount;
+		if (shieldHealth > shieldMaxHealth) shieldHealth = shieldMaxHealth;
+		shieldHealthEvent.dispatch(getShipStatus());
+	}
 	function touchMe(impactor) {
 		impactor.defenseTimer = setInterval(function() {
 			if (shieldHealth > 0) {
@@ -43,6 +48,7 @@ var shipModel = (function() {
 	return {
 		getShipStatus,
 		damage,
+		healShields,
 		hullHealthEvent,
 		shieldHealthEvent,
 		touchMe,
