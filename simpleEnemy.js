@@ -2,8 +2,9 @@ var simpleEnemy = (function() {
 	var exports = {};
 
 	var game, shipCollisionGroup, debug, enemiesGroup, enemiesCollisionGroup;
+	var damagePerTick = 2;
+	var attackInterval = 100;
 	exports.init = function(_game, _shipCollisionGroup, _enemiesCollisionGroup, _debug) {
-		console.log(_game, _shipCollisionGroup, _enemiesCollisionGroup, _debug);
 		game = _game;
 		shipCollisionGroup = _shipCollisionGroup;
 		enemiesCollisionGroup = _enemiesCollisionGroup;
@@ -16,30 +17,13 @@ var simpleEnemy = (function() {
 
 	function collision(enemyBody, shipBody) {
 		var enemy = enemyBody.sprite;
+		if (enemy.onHull) return false;
 		enemyBody.removeCollisionGroup(enemiesCollisionGroup);
 		var offset = [shipBody.x - enemyBody.x, shipBody.y - enemyBody.y];
 		var angle = game.math.angleBetween(shipBody.x, shipBody.y, enemyBody.x, enemyBody.y);
-		// game.physics.p2.createSpring(shipBody, enemyBody, 40, 30, 50);
 		enemy.constraints.push(game.physics.p2.createLockConstraint(shipBody, enemyBody, offset, angle, 1000));
-		if (enemy.melt) {
-			enemy.damage = { max: 10, current: 10, inflicted: 0 };
-			var tweenTime = 500;
-			var sizeTween = game.add.tween(enemy.scale);
-			sizeTween.to( {x: 0, y: 0}, tweenTime, null, true)
-				.onComplete.add(function() {
-					while (enemy.constraints.length) {
-						game.physics.p2.removeConstraint(enemy.constraints.shift());
-					}
-					enemy.kill();
-				}, this);
-			var damageTween = game.add.tween(enemy.damage);
-			damageTween.to( {current: 0 }, tweenTime, null, true);
-			damageTween.onUpdateCallback(function(param) {
-				var diff = enemy.damage.max - (enemy.damage.current + enemy.damage.inflicted);
-				shipModel.damage(diff);
-				enemy.damage.inflicted += diff;
-			});
-		}
+		shipModel.touchMe(enemy);
+		enemy.touchMe(shipBody);
 	}
 
 	exports.spawn = function(x = 700, y = 200) {
@@ -55,7 +39,33 @@ var simpleEnemy = (function() {
 		enemy.anchor.x = 0.5;
 		enemy.anchor.y = 0.5;
 		enemy.constraints = [];
-		enemy.melt = true;
+		enemy.onHull = false;
+		enemy.health = 100;
+		enemy.maxHealth = 100;
+		console.log(enemy.scale);
+		enemy.die = function() {
+			while (enemy.constraints.length) {
+				game.physics.p2.removeConstraint(enemy.constraints.shift());
+			}
+			clearInterval(enemy.attackTimer);
+			clearInterval(enemy.defenseTimer);
+			enemy.kill();
+		};
+		enemy.damage = function(amount) {
+			enemy.health -= amount;
+			enemy.updateSize();
+			if (enemy.health <= 0) enemy.die();
+		};
+		enemy.touchMe = function(ship) {
+			enemy.onHull = true;
+			enemy.attackTimer = setInterval(function() {
+				shipModel.damage(damagePerTick);
+			}, attackInterval);
+		};
+		enemy.updateSize = function() {
+			var healthPercentage = enemy.health / enemy.maxHealth;
+			enemy.scale.x = enemy.scale.y = healthPercentage;
+		};
 		return enemy;
 	};
 

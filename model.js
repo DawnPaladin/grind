@@ -1,8 +1,10 @@
 var shipModel = (function() {
 	var hullHealth = 100;
 	var hullMaxHealth = 100;
-	var shieldHealth = 100;
-	var shieldMaxHealth = 100;
+	var shieldHealth = 125;
+	var shieldMaxHealth = 125;
+	var shieldDamagePerTick = 2;
+	var attackInterval = 100;
 
 	var abilities = {};
 
@@ -30,11 +32,19 @@ var shipModel = (function() {
 			shieldHealthEvent.dispatch(getShipStatus());
 		}
 	}
+	function touchMe(impactor) {
+		impactor.defenseTimer = setInterval(function() {
+			if (shieldHealth > 0) {
+				impactor.damage(shieldDamagePerTick);
+			}
+		}, attackInterval);
+	}
 
 	return {
 		getShipStatus,
 		damage,
 		hullHealthEvent,
 		shieldHealthEvent,
+		touchMe,
 	};
 })();
