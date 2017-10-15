@@ -17,7 +17,7 @@ function create() {
 	game.stage.backgroundColor = '#1C1C1C';
 
 	shipCollisionGroup = game.physics.p2.createCollisionGroup();
-	ship = game.add.sprite(200, 200, 'ship');
+	ship = game.add.sprite(500, 600, 'ship');
 	shipGroup = game.add.group();
 	shipGroup.enableBody = true;
 	shipGroup.addChild(ship);
@@ -28,7 +28,7 @@ function create() {
 
 	enemyCollisionGroup = game.physics.p2.createCollisionGroup();
 	enemies = simpleEnemy.init(game, shipCollisionGroup, enemyCollisionGroup, debug);
-	simpleEnemy.spawn();
+	simpleEnemy.spawnFormation();
 
 	game.physics.p2.enable([ship, enemies], debug);
 	ship.body.setCircle(200);

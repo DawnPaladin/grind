@@ -17,7 +17,7 @@ var simpleEnemy = (function() {
 
 	function collision(enemyBody, shipBody) {
 		var enemy = enemyBody.sprite;
-		if (enemy.onHull) return false;
+		if (enemy.onHull || (enemyBody.sprite.name == "enemy" && shipBody.sprite.name == "enemy")) return false;
 		enemyBody.removeCollisionGroup(enemiesCollisionGroup);
 		var offset = [shipBody.x - enemyBody.x, shipBody.y - enemyBody.y];
 		var angle = game.math.angleBetween(shipBody.x, shipBody.y, enemyBody.x, enemyBody.y);
@@ -26,12 +26,13 @@ var simpleEnemy = (function() {
 		enemy.touchMe(shipBody);
 	}
 
-	exports.spawn = function(x = 700, y = 200) {
+	function spawn(x = 700, y = 200) {
 		if (!enemiesGroup) throw new Error("enemiesGroup missing");
 		if (!enemiesCollisionGroup) throw new Error("enemiesCollisionGroup missing");
 		if (!shipCollisionGroup) throw new Error("shipCollisionGroup missing");
 		var enemy = enemiesGroup.create(x, y, 'enemy');
-		enemy.body.velocity.x = -100;
+		enemy.name = "enemy";
+		enemy.body.velocity.y = 100;
 		enemy.body.setCollisionGroup(enemiesCollisionGroup);
 		enemy.body.collides([shipCollisionGroup, enemiesCollisionGroup], collision);
 		enemy.body.sprite = enemy;
@@ -74,6 +75,15 @@ var simpleEnemy = (function() {
 			enemy.damage(damage);
 		}, this);
 		return enemy;
+	}
+	exports.spawn = spawn;
+
+	exports.spawnFormation = function() {
+		spawn(900, 200);
+		spawn(700, 200);
+		spawn(500, 200);
+		spawn(300, 200);
+		spawn(100, 200);
 	};
 
 	return exports;
