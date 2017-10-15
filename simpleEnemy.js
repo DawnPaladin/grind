@@ -72,6 +72,7 @@ var simpleEnemy = (function() {
 			var maxDamage = 100;
 			var damage = maxDamage > enemy.health ? enemy.health : maxDamage;
 			shipModel.healShields(damage);
+			shipModel.abilities.harvest.trigger();
 			enemy.damage(damage);
 		}, this);
 		return enemy;

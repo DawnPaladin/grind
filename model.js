@@ -1,3 +1,15 @@
+class Cooldown {
+	constructor(duration) {
+		this.available = true;
+		this.trigger = () => {
+			this.available = false;
+			setTimeout(() => {
+				this.available = true;
+			}, duration);
+		};
+	}
+}
+
 var shipModel = (function() {
 	var hullHealth = 100;
 	var hullMaxHealth = 100;
@@ -45,6 +57,8 @@ var shipModel = (function() {
 		}, attackInterval);
 	}
 
+	abilities.harvest = new Cooldown(3000);
+
 	return {
 		getShipStatus,
 		damage,
@@ -52,5 +66,6 @@ var shipModel = (function() {
 		hullHealthEvent,
 		shieldHealthEvent,
 		touchMe,
+		abilities,
 	};
 })();
